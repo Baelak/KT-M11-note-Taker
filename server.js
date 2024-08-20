@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // HTML Routes
 app.get('/notes', (req, res) => {
@@ -24,7 +24,7 @@ app.get('*', (req, res) => {
 
 // API Routes
 app.get('/api/notes', (req, res) => {
-  fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Failed to read notes' });
@@ -41,7 +41,7 @@ app.post('/api/notes', (req, res) => {
 
   const newNote = { id: uuidv4(), title, text };
 
-  fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Failed to read notes' });
@@ -50,7 +50,7 @@ app.post('/api/notes', (req, res) => {
     const notes = JSON.parse(data);
     notes.push(newNote);
 
-    fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+    fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (err) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Failed to save note' });
@@ -64,7 +64,7 @@ app.post('/api/notes', (req, res) => {
 app.delete('/api/notes/:id', (req, res) => {
   const { id } = req.params;
 
-  fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: 'Failed to read notes' });
@@ -73,7 +73,7 @@ app.delete('/api/notes/:id', (req, res) => {
     let notes = JSON.parse(data);
     notes = notes.filter(note => note.id !== id);
 
-    fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+    fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (err) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: 'Failed to delete note' });
