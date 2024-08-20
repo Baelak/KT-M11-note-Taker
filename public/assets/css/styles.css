@@ -1,12 +1,7 @@
-html,
-body {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-.save-note, .new-note, .clear-btn {
-  display: none;
 }
 
 .icons {
@@ -18,7 +13,7 @@ body {
 
 .note-textarea,
 .note-title {
-  color: #000000;
+  color: #000;
   width: 100%;
   outline: none;
   border: none;
