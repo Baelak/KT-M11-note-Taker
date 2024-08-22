@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeNote = {};
 
-  const API_BASE_URL = 'http://localhost:3001'; // Ensure this matches your server port
+  const API_BASE_URL = 'https://kt-m11-note-taker.onrender.com'; // Ensure this matches your server port
 
   const show = (elem) => {
     elem.style.display = 'inline';
