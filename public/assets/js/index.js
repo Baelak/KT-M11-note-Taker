@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeNote = {};
 
-  const API_BASE_URL = 'http://localhost:3001'; // Ensure this matches your server port
+  const API_BASE_URL = 'https://kt-m11-note-taker.onrender.com/'; // Ensure this matches your server port
 
   const show = (elem) => {
     elem.style.display = 'inline';
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const getNotes = () => {
-    return fetch(`${API_BASE_URL}/api/notes`)
+    fetch(`${API_BASE_URL}/api/notes`)
       .then((res) => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
@@ -28,17 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then((data) => {
-        noteList.innerHTML = '';
-        data.forEach((note) => {
-          const listItem = document.createElement('li');
-          listItem.classList.add('list-group-item');
-          listItem.dataset.id = note.id;
-          listItem.innerHTML = `
-            <h3 class="list-item-title">${note.title}</h3>
-            <i class="fas fa-trash-alt float-right delete-note"></i>
-          `;
-          noteList.appendChild(listItem);
-        });
+        renderNoteList(data);
       })
       .catch((error) => {
         console.error('Error fetching notes:', error);
@@ -46,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const saveNote = (note) => {
-    return fetch(`${API_BASE_URL}/api/notes`, {
+    fetch(`${API_BASE_URL}/api/notes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(() => {
       getNotes();
+      clearForm();
     })
     .catch((error) => {
       console.error('Error saving note:', error);
@@ -68,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const deleteNote = (id) => {
-    return fetch(`${API_BASE_URL}/api/notes/${id}`, {
+    fetch(`${API_BASE_URL}/api/notes/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -96,14 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const newNote = { title, text };
+
     if (activeNote.id) {
       newNote.id = activeNote.id;
       activeNote = {};
     }
 
     saveNote(newNote);
-    noteTitle.value = '';
-    noteText.value = '';
   };
 
   const handleNoteDelete = (event) => {
@@ -116,18 +106,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleNewNote = () => {
     activeNote = {};
+    clearForm();
+  };
+
+  const clearForm = () => {
     noteTitle.value = '';
     noteText.value = '';
   };
 
-  const handleClearForm = () => {
-    noteTitle.value = '';
-    noteText.value = '';
+  const renderNoteList = (notes) => {
+    noteList.innerHTML = ''; // Clear the existing notes
+
+    notes.forEach((note) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('list-group-item');
+      listItem.dataset.id = note.id;
+      listItem.innerHTML = `
+        <h3 class="list-item-title">${note.title}</h3>
+        <i class="fas fa-trash-alt float-right delete-note"></i>
+      `;
+      noteList.appendChild(listItem);
+    });
   };
 
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNote);
-  clearBtn.addEventListener('click', handleClearForm);
+  clearBtn.addEventListener('click', clearForm);
   noteList.addEventListener('click', handleNoteDelete);
 
   getNotes();
