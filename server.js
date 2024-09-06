@@ -71,7 +71,7 @@ app.delete('/api/notes/:id', (req, res) => {
     }
 
     let notes = JSON.parse(data);
-    notes = notes.filter(note => note.id !== id);
+    notes = notes.filter((note) => note.id !== id);
 
     fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (err) => {
       if (err) {
@@ -84,4 +84,6 @@ app.delete('/api/notes/:id', (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

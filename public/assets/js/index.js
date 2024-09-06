@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeNote = {};
 
-  const API_BASE_URL = 'https://kt-m11-note-taker.onrender.com'; // Ensure this matches your server port
+  const API_BASE_URL = 'https://kt-m11-note-taker.onrender.com';
 
   const show = (elem) => {
     elem.style.display = 'inline';
@@ -21,12 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getNotes = () => {
     fetch(`${API_BASE_URL}/api/notes`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         renderNoteList(data);
       })
@@ -43,12 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify(note),
     })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json();
-    })
+    .then((res) => res.json())
     .then(() => {
       getNotes();
       clearForm();
@@ -65,12 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json();
-    })
+    .then((res) => res.json())
     .then(() => {
       getNotes();
     })
