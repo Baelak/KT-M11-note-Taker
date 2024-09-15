@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeNote = {};
 
-  const API_BASE_URL = 'https://kt-m11-note-taker.onrender.com';
 
   const show = (elem) => {
     elem.style.display = 'inline';
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const getNotes = () => {
-    fetch(`${API_BASE_URL}/api/notes`)
+    fetch(`/api/notes`)
       .then((res) => res.json())
       .then((data) => {
         renderNoteList(data);
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const saveNote = (note) => {
-    fetch(`${API_BASE_URL}/api/notes`, {
+    fetch(`/api/notes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const deleteNote = (id) => {
-    fetch(`${API_BASE_URL}/api/notes/${id}`, {
+    fetch(`/api/notes/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
