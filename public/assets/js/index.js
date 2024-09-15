@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const newNoteBtn = document.querySelector('.new-note');
   const clearBtn = document.querySelector('.clear-btn');
   const noteList = document.querySelector('.list-container .list-group');
+});
 
   let activeNote = {};
 
@@ -119,4 +120,4 @@ document.addEventListener('DOMContentLoaded', () => {
   noteList.addEventListener('click', handleNoteDelete);
 
   getNotes();
-});
+
